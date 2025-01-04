@@ -54,7 +54,9 @@ func main() {
 	routes.ProductRoutes(r)
 	// Email routes
 	routes.MailRoutes(r)
-
+	// Chat routes
+	routes.ChatRoutes(r)
+	
 	httpServer := &http.Server{
 		Addr:    ":8081",
 		Handler: r,

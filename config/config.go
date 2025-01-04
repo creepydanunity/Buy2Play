@@ -77,4 +77,12 @@ func SyncDatabase() {
 	if DB.AutoMigrate(&models.Order{}) != nil {
 		panic("Database models.Order migration failed")
 	}
+
+	if DB.AutoMigrate(&models.Conversation{}) != nil {
+		panic("Database models.Conversation migration failed")
+	}
+
+	if DB.AutoMigrate(&models.Message{}) != nil {
+		panic("Database models.Message migration failed")
+	}
 }
