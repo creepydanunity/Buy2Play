@@ -12,6 +12,7 @@ import (
 var (
 	JWTSecret []byte
 	DB        *gorm.DB
+	BaseURL   string
 )
 
 type Status string
@@ -45,10 +46,35 @@ func LoadEnvVariables() {
 		log.Fatalf("Error loading .env file: %v", err)
 	}
 	JWTSecret = []byte(os.Getenv("JWT_SECRET"))
+	BaseURL = os.Getenv("BASE_URL")
 }
 
 func SyncDatabase() {
 	if DB.AutoMigrate(&models.User{}) != nil {
 		panic("Database models.User migration failed")
+	}
+
+	if DB.AutoMigrate(&models.ProductCategory{}) != nil {
+		panic("Database models.ProductCategory migration failed")
+	}
+
+	if DB.AutoMigrate(&models.ProductSubCategory{}) != nil {
+		panic("Database models.ProductSubCategory migration failed")
+	}
+
+	if DB.AutoMigrate(&models.Product{}) != nil {
+		panic("Database models.Product migration failed")
+	}
+
+	if DB.AutoMigrate(&models.VerificationToken{}) != nil {
+		panic("Database models.VerificationToken migration failed")
+	}
+
+	if DB.AutoMigrate(&models.CartItem{}) != nil {
+		panic("Database models.CartItem migration failed")
+	}
+
+	if DB.AutoMigrate(&models.Order{}) != nil {
+		panic("Database models.Order migration failed")
 	}
 }

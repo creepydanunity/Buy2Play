@@ -10,10 +10,11 @@ type Claims struct {
 	ID       uint   `json:"id"`
 	Username string `json:"username"`
 	Email    string `json:"email"`
+	IsAdmin  bool   `json:"isAdmin"`
 	jwt.StandardClaims
 }
 
-func GenerateToken(userID uint, username, email string, hours int) (string, error) {
+func GenerateToken(userID uint, username, email string, isAdmin bool, hours int) (string, error) {
 	var expiresAt int64
 
 	if hours > 10 {
@@ -26,6 +27,7 @@ func GenerateToken(userID uint, username, email string, hours int) (string, erro
 		userID,
 		username,
 		email,
+		isAdmin,
 		jwt.StandardClaims{
 			ExpiresAt: expiresAt,
 			Issuer:    "Buy2Play",

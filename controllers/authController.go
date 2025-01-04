@@ -37,7 +37,6 @@ func Register(c *gin.Context) {
 
 	user := models.User{Email: tempUser.Email, Username: tempUser.Name}
 
-	// Hash password
 	err := user.SetPassword(user.Password)
 	if err != nil {
 		logrus.WithFields(logrus.Fields{
@@ -48,7 +47,6 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	// Save user to DB
 	result := config.DB.Create(&user)
 
 	if result.Error != nil {
@@ -81,7 +79,6 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// Retrieve user from DB (TBC)
 	var user models.User
 	err := config.DB.Model(models.User{}).Where("email = ?", tempUser.Email).First(&user).Error
 	if err != nil {
@@ -108,7 +105,6 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	// Generate JWT token
 	var token string
 	if tempUser.RememberMe {
 		token, err = utils.GenerateToken(user.ID, user.Username, user.Email, 14)
@@ -126,5 +122,10 @@ func Login(c *gin.Context) {
 	}
 
 	c.SetCookie("Authorization", token, 3600, "/", "localhost", false, true)
+	c.Redirect(http.StatusSeeOther, "/")
+}
+
+func Logout(c *gin.Context) {
+	c.SetCookie("Authorization", "", -1, "/", "localhost", false, true)
 	c.Redirect(http.StatusSeeOther, "/")
 }

@@ -44,6 +44,16 @@ func main() {
 
 	// Auth routes
 	routes.AuthRoutes(r)
+	// Profile routes
+	routes.UserRoutes(r)
+	// Cart routes
+	routes.CartRoutes(r)
+	// Order routes
+	routes.OrderRoutes(r)
+	// Product routes
+	routes.ProductRoutes(r)
+	// Email routes
+	routes.MailRoutes(r)
 
 	httpServer := &http.Server{
 		Addr:    ":8081",

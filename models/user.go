@@ -2,13 +2,17 @@ package models
 
 import (
 	"golang.org/x/crypto/bcrypt"
+	"time"
 )
 
 type User struct {
-	ID       uint   `json:"user_id"`
-	Email    string `json:"email"`
-	Username string `json:"username"`
-	Password string `json:"password"`
+	ID                   uint      `json:"user_id"`
+	Email                string    `json:"email"`
+	Username             string    `json:"username"`
+	Password             string    `json:"password"`
+	EmailVerified        bool      `json:"email_verified" gorm:"default:false"`
+	IsAdmin              bool      `json:"is_admin" gorm:"default:false"`
+	LastVerificationSent time.Time `json:"last_verification_sent"`
 }
 
 // SetPassword Hash password
