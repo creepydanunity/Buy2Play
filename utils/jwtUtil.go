@@ -13,18 +13,26 @@ type Claims struct {
 	jwt.StandardClaims
 }
 
-func GenerateToken(userID uint, username, email string) (string, error) {
-	claims := Claims{
+func GenerateToken(userID uint, username, email string, hours int) (string, error) {
+	var expiresAt int64
+
+	if hours > 10 {
+		expiresAt = time.Now().Add(time.Hour * 24 * 14).Unix()
+	} else {
+		expiresAt = time.Now().Add(time.Hour * 4).Unix()
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, Claims{
 		userID,
 		username,
 		email,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour * 12).Unix(),
+			ExpiresAt: expiresAt,
 			Issuer:    "Buy2Play",
+			IssuedAt:  time.Now().Unix(),
 		},
-	}
+	})
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(config.JWTSecret)
 }
 
