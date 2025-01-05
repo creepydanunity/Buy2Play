@@ -4,28 +4,35 @@ import (
 	"buy2play/config"
 	"buy2play/models"
 	"errors"
+	"fmt"
 	"github.com/google/uuid"
-	"gopkg.in/gomail.v2"
+	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
+	"net/smtp"
 	"os"
 	"time"
 )
 
 func SendEmail(to string, subject string, body string) error {
-	m := gomail.NewMessage()
-	m.SetHeader("From", os.Getenv("EMAIL_SENDER"))
-	m.SetHeader("To", to)
-	m.SetHeader("Subject", subject)
-	m.SetBody("text/html", body)
+	from := os.Getenv("EMAIL_SENDER")
 
-	d := gomail.NewDialer(
-		os.Getenv("SMTP_HOST"),
-		587,
-		os.Getenv("SMTP_USER"),
-		os.Getenv("SMTP_PASS"),
+	auth := smtp.PlainAuth(
+		"",
+		from,
+		os.Getenv("GOOGLE_APP_PASS"),
+		"smtp.gmail.com",
 	)
 
-	return d.DialAndSend(m)
+	msg := "From: " + from + "\n" +
+		"To: " + to + "\n" +
+		"Subject: " + subject + "\n\n" +
+		body
+
+	if err := smtp.SendMail("smtp.gmail.com:587", auth, from, []string{to}, []byte(msg)); err != nil {
+		return fmt.Errorf("send email to %s failed: %w", to, err)
+	}
+	log.Infof("Sent email from %s to %s", from, to)
+	return nil
 }
 
 func GenerateVerificationToken() string {

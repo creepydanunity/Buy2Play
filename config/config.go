@@ -15,21 +15,6 @@ var (
 	BaseURL   string
 )
 
-type Status string
-
-const (
-	Pending  Status = "pending"
-	Approved Status = "approved"
-	Rejected Status = "rejected"
-)
-
-type ProductType string
-
-const (
-	Auto   ProductType = "auto"
-	Manual ProductType = "manual"
-)
-
 func ConnectToDb() {
 	var err error
 	dsn := os.Getenv("DB")

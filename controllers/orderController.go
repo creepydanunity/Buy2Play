@@ -74,7 +74,7 @@ func UpdateOrderStatus(c *gin.Context) {
 		return
 	}
 
-	order.Status = config.Status(input.Status)
+	order.Status = models.Status(input.Status)
 	db.Save(&order)
 	c.JSON(http.StatusOK, order)
 }

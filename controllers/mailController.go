@@ -24,7 +24,12 @@ func SendVerificationEmail(c *gin.Context) {
 		return
 	}
 
-	if !user.LastVerificationSent.IsZero() && time.Since(user.LastVerificationSent) < 1*time.Minute {
+	if user.EmailVerified {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Email is already verified"})
+		return
+	}
+
+	if !user.LastVerificationSent.IsZero() && time.Since(user.LastVerificationSent) < 5*time.Minute {
 		c.JSON(http.StatusTooManyRequests, gin.H{"error": "Please wait before requesting another verification email"})
 		return
 	}

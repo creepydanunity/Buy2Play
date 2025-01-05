@@ -9,6 +9,11 @@ import (
 func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("Authorization")
+
+		if token == "" {
+			token, _ = c.Cookie("Authorization")
+		}
+
 		if token == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization token required"})
 			c.Abort()
@@ -30,6 +35,11 @@ func AuthRequired() gin.HandlerFunc {
 func AdminAuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.GetHeader("Authorization")
+
+		if token == "" {
+			token, _ = c.Cookie("Authorization")
+		}
+
 		if token == "" {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization token required"})
 			c.Abort()

@@ -8,5 +8,5 @@ import (
 
 func UserRoutes(r *gin.Engine) {
 	r.GET("/users", middlewares.AuthRequired(), controllers.GetUserProfile)
-	r.PUT("/users", middlewares.AuthRequired(), controllers.UpdateUserProfile)
+	r.PATCH("/users", middlewares.AuthRequired(), controllers.UpdateUserProfile)
 }
