@@ -1,0 +1,50 @@
+// а сюда заимпортим чисто App.scss
+html {
+    height: 100%;
+    font: 20px/1.5 Montserrat, sans-serif, Arial;
+  }
+ 
+  body {
+     margin: 0;
+     background-color: rgba(239, 240, 245, 1);
+
+     color: rgba(64, 64, 64, 1);
+     min-height: 100%;
+  }
+ 
+ h1 {
+    font-size: 2.4rem;
+ }
+ 
+ h2{
+    font-size: 2.1rem;
+  }
+ 
+ h3{
+    font-size: 0.9rem;
+ }
+ 
+ button{
+    cursor: pointer;
+    color: inherit; 
+    background: inherit; 
+    border: none;
+ }
+ 
+ form{
+    background:none;
+ }
+ 
+ input{
+    background:none;
+ }
+ 
+ ul {
+    list-style-type: none;
+ }
+ 
+ a{
+    text-decoration: none;
+    color: inherit;
+ }
+ 

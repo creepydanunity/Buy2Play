@@ -1,0 +1,23 @@
+@use '../../styles/Mixins.scss';
+.footer{
+    @include Mixins.center-flex();
+    background-color: rgba(14, 27, 77, 1);
+    color: rgba(255, 255, 255, 0.75);
+    .footer-wrapper{
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        width: 100%;
+        max-width: 63rem;
+
+        .footer-navbar{
+            padding-right: 1rem;
+            display: flex;
+            width: 100%;
+            flex-direction: row;
+        }
+
+    }
+}

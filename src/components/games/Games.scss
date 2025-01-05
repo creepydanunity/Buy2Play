@@ -1,0 +1,14 @@
+@use '../../styles/Mixins.scss';
+
+
+.popular-games-section{
+    @include Mixins.center-flex();
+    .popular-games-wrapper{
+        width: 100%;
+        max-width: 63rem;
+
+        .games-card-wrapper{
+            @include Mixins.flex-items-in-row();
+        }
+    }   
+}

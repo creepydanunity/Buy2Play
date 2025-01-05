@@ -1,0 +1,28 @@
+@use '../../styles/Mixins.scss';
+.our-preferences-section{
+    @include Mixins.center-flex();
+    flex-direction: column;
+    .preferences-section-wrapper{
+        width: 100%;
+        max-width: 38.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        .preferences-section-title{
+            margin: 0 auto;
+        }
+        .preferences-list{
+            padding: 0;
+            width: 100%;
+            .preferences-list-item{
+               @include Mixins.flex-space-between();
+               min-height: 2.6rem;
+            }
+
+            .preferences-list-item:hover{
+                background-color:rgb(181, 182, 185);    
+            }
+        }
+    }
+}

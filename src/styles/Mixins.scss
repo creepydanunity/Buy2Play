@@ -1,0 +1,30 @@
+@mixin center-flex() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+@mixin link-button($border-radius: 2rem, $background-color: rgba(71, 112, 219, 1), $padding: 0.6rem 1.5rem, $color: rgba(239, 240, 245, 1)) {
+    border-radius: $border-radius;
+    background-color: $background-color;
+    padding: $padding;
+    color: $color;
+    width: 8rem;
+    height: 2.5rem;
+}
+
+@mixin flex-items-in-row() {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: 1; 
+    flex-wrap: wrap;
+}
+
+@mixin flex-space-between() {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

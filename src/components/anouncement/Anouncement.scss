@@ -1,0 +1,14 @@
+@use '../../styles/Variables.scss';
+@use '../../styles/Mixins.scss';
+
+.announcement-bar-wrapper{
+    background-color: Variables.$anouncement-background-color;
+    color:Variables.$anouncement-color;
+    @include Mixins.center-flex();
+    .announcement-bar{
+        padding: 0.5rem 0;
+    }
+    .announcement-bar:hover{
+        text-decoration: underline;
+    }
+}

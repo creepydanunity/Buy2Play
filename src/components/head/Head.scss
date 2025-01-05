@@ -1,0 +1,42 @@
+@use '../../styles/Variables.scss';
+@use '../../styles/Mixins.scss';
+
+.header{
+
+    @include Mixins.center-flex();
+    flex-direction: row;
+
+    .header-wrapper{
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 63rem;
+
+        .header-user-actions{
+            @include Mixins.flex-space-between();
+        }
+
+        .user-actions-controls{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 6.7rem;
+        }
+        .header-navbar{
+            display: flex;
+            flex-direction: row;
+            justify-content: start;
+            width: 100%;
+            .header-navbar-row{
+                padding: 0;
+                display: flex;
+                width: 100%;
+                flex-direction: row;
+            }
+        }
+    }
+
+}
