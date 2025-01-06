@@ -59,6 +59,10 @@ func SyncDatabase() {
 		panic("Database models.CartItem migration failed")
 	}
 
+	if DB.AutoMigrate(&models.OrderItem{}) != nil {
+		panic("Database models.OrderItem migration failed")
+	}
+
 	if DB.AutoMigrate(&models.Order{}) != nil {
 		panic("Database models.Order migration failed")
 	}

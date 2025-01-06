@@ -10,6 +10,7 @@ import (
 
 type OrderResponse struct {
 	OrderID    uint              `json:"order_id"`
+	Status     models.Status     `json:"status"`
 	Timestamp  time.Time         `json:"timestamp"`
 	TotalPrice int               `json:"total_price"`
 	Products   []ProductResponse `json:"products"`
@@ -21,6 +22,7 @@ type ProductResponse struct {
 	Price       int    `json:"product_price"`
 	Description string `json:"product_description"`
 	ImageURL    string `json:"product_image_url"`
+	Quantity    int    `json:"product_quantity"`
 }
 
 // GetUserProfile retrieves a user's profile
@@ -40,28 +42,33 @@ func GetUserProfile(c *gin.Context) {
 	}
 
 	var userOrders []models.Order
-	if err := db.Model(&models.Order{}).Where("user_id = ?", user.ID).
-		Preload("Products").
+	if err := db.Model(&models.Order{}).
+		Where("user_id = ?", user.ID).
+		Preload("OrderItems.Product").
 		Select("id", "timestamp", "total_price", "status").
 		Find(&userOrders).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "User orders not found"})
+		return
 	}
 
 	var orderResponses []OrderResponse
 	for _, order := range userOrders {
 		var productResponses []ProductResponse
-		for _, product := range order.Products {
+		for _, orderItem := range order.OrderItems {
+			product := orderItem.Product
 			productResponses = append(productResponses, ProductResponse{
 				ID:          product.ID,
 				Name:        product.Name,
 				Price:       product.Price,
 				Description: product.Description,
 				ImageURL:    product.ImageURL,
+				Quantity:    orderItem.Quantity,
 			})
 		}
 
 		orderResponses = append(orderResponses, OrderResponse{
 			OrderID:    order.ID,
+			Status:     order.Status,
 			Timestamp:  order.Timestamp,
 			TotalPrice: order.TotalPrice,
 			Products:   productResponses,

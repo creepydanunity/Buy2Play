@@ -46,8 +46,14 @@ func ValidateToken(tokenString string) (*Claims, error) {
 		return nil, err
 	}
 
-	if claims, ok := token.Claims.(*Claims); ok && token.Valid {
-		return claims, nil
+	claims, ok := token.Claims.(*Claims)
+	if !ok || !token.Valid {
+		return nil, err
 	}
-	return nil, err
+
+	if claims.ExpiresAt < time.Now().Unix() {
+		return nil, jwt.ErrSignatureInvalid
+	}
+
+	return claims, nil
 }

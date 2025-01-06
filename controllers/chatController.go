@@ -3,6 +3,7 @@ package controllers
 import (
 	"buy2play/config"
 	"buy2play/models"
+	"buy2play/utils"
 	"buy2play/websocketInternal"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -82,6 +83,20 @@ var upgrader = websocket.Upgrader{
 
 // WebSocketHandler handles WebSocket communication for a specific conversation
 func WebSocketHandler(c *gin.Context) {
+	token, err := c.Cookie("Authorization")
+	if err != nil || token == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization token required"})
+		return
+	}
+
+	claims, err := utils.ValidateToken(token)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+		return
+	}
+
+	c.Set("userID", claims.ID)
+
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
 		log.Error("Failed to upgrade connection:", err)
@@ -94,17 +109,11 @@ func WebSocketHandler(c *gin.Context) {
 		}
 	}(conn)
 
-	// Get conversation ID from URL parameter
-	conversationIDStr := c.Param("id")
-	conversationID, err := strconv.Atoi(conversationIDStr)
-	if err != nil {
-		err := conn.WriteMessage(websocket.TextMessage, []byte("Invalid conversation ID"))
-		if err != nil {
-			log.Error("Failed to write message:", err)
-			return
-		}
-		return
+	var input struct {
+		OrderID int `json:"order_id"`
 	}
+
+	input.OrderID, _ = strconv.Atoi(c.Param("orderID"))
 
 	// Get userID from context (ensure user is authenticated)
 	userID, exists := c.Get("userID")
@@ -117,10 +126,20 @@ func WebSocketHandler(c *gin.Context) {
 		return
 	}
 
-	websocketInternal.AddClient(uint(conversationID), conn)
+	var conversation models.Conversation
+	err = config.DB.Where("order_id = ? AND user_id = ?", input.OrderID, userID).Preload("Order").First(&conversation).Error
+	if err != nil {
+		err := conn.WriteMessage(websocket.TextMessage, []byte("Unauthorized access to conversation"))
+		if err != nil {
+			log.Error("Failed to write message:", err)
+			return
+		}
+		return
+	}
 
-	// Notify the client that the connection is established
-	err = conn.WriteMessage(websocket.TextMessage, []byte("Connected to the conversation"))
+	websocketInternal.AddClient(uint(input.OrderID), conn)
+
+	err = conn.WriteMessage(websocket.TextMessage, []byte("Вы зашли в чат!"))
 	if err != nil {
 		log.Error("Failed to write message:", err)
 		return
@@ -134,7 +153,7 @@ func WebSocketHandler(c *gin.Context) {
 		}
 
 		message := models.Message{
-			ConversationID: uint(conversationID),
+			ConversationID: conversation.ID,
 			SenderID:       userID.(uint),
 			Content:        string(msg),
 			Timestamp:      time.Now(),
@@ -149,7 +168,7 @@ func WebSocketHandler(c *gin.Context) {
 			continue
 		}
 
-		websocketInternal.BroadcastMessage(uint(conversationID), msg)
+		websocketInternal.BroadcastMessage(uint(input.OrderID), msg)
 	}
-	websocketInternal.RemoveClient(uint(conversationID), conn)
+	websocketInternal.RemoveClient(uint(input.OrderID), conn)
 }
