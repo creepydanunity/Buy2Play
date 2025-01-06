@@ -4,7 +4,7 @@ import IMAGES from "../../images/Images";
 
 function DeliverySection(){
     return(
-        <div className='delivery-section'>
+        <section className='delivery-section'>
             <div className='delivery-section-wrapper'>
                 <img className="delivery-section-image" src={IMAGES.delivery}alt="rocket" />
                 <div className='delivery-section-content'>
@@ -20,8 +20,7 @@ function DeliverySection(){
                     <button className='delivery-content-button'>К покупкам</button>
                 </div>
             </div>
-
-        </div>
+        </section>
     )
 }
 

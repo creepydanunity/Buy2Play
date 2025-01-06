@@ -1,15 +1,14 @@
 import "./HeroSection.scss"
+import React from "react";
+import Slider from "../slider/Slider";
 
 
 function HeroSection(){
+
     return(
-    <div className='hero-section'>
-        <div className='hero-section-slider'>
-            <div>
-            Lorem ipsum
-            </div>
-        </div>
-    </div>
+    <section className='hero-section'>
+        <Slider/>
+    </section>
     )
 
 }

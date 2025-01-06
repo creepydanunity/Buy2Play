@@ -1,9 +1,31 @@
+@use '../../../styles/Mixins.scss';
+@use '../../../styles/Variables.scss';
 
 .popular-games-card{
     width: 100%;
     max-width: 18.3rem;
     background-color: rgb(225, 227, 233);
     border-radius: 1rem;
-    padding:1.3rem;
+    padding:1.3rem; 
+    margin: 1.4rem;
+    margin-left: 0;
+    @include Mixins.flex-column-around();
+
+    .games-card-title{
+        color: Variables.$header-color;
+        font-size: 1rem;
+    }
     
+    .card-img-wrapper{
+        @include Mixins.center-flex();
+    }
+
+    .games-card-link{
+        color: rgba(14, 27, 77, 1);
+        text-decoration: bold;
+        margin-top: 1rem;
+    }
 }
+
+
+

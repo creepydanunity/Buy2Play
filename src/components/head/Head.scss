@@ -25,16 +25,33 @@
             justify-content: space-between;
             width: 6.7rem;
         }
+
         .header-navbar{
             display: flex;
             flex-direction: row;
             justify-content: start;
             width: 100%;
-            .header-navbar-row{
-                padding: 0;
-                display: flex;
-                width: 100%;
-                flex-direction: row;
+            padding: 0;
+
+            .header-navbar-item{
+                padding: 0.6rem;
+
+                .item-arrow{
+                    margin-left: 0.45rem;
+                }
+                
+            }
+
+            .header-navbar-item:hover{
+                color: Variables.$header-color;
+                cursor: pointer;
+                text-decoration: underline;
+            }
+
+
+
+            .header-navbar-item:first-child{
+                padding-left:0;
             }
         }
     }

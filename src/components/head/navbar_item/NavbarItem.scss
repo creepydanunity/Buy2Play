@@ -1,0 +1,55 @@
+@use '../../../styles/Variables.scss';
+@use '../../../styles/Mixins.scss';
+
+.navbar-item-container {
+    position: relative; /* Make the container relative */
+    display: inline-block;
+}
+
+.header-navbar-item{
+    padding: 0.6rem;
+    position: relative;
+    z-index: 1; /* Ensure header is above the absolute text */
+
+    .item-arrow{
+        margin-left: 0.45rem;
+    }
+}
+
+.header-navbar-item:hover{
+    color: Variables.$header-color;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.header-navbar-item:first-child{
+    padding-left:0;
+}
+
+.navbar-text {
+    position: absolute; /* Absolutely position the text */
+    top: 100%; /* Position it right below the header */
+    left: 0;
+    width: 100%; /* Make it full width */
+    overflow: hidden;
+    z-index: 10; /* Ensure it doesn't overlap other content */
+    transition: height 0.3s ease-in-out; /* Add transition */
+    background-color: white;  /* Add background color */
+    border-radius: 0 0 5px 5px; /* Rounded bottom border */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Add shadow */
+    box-sizing: border-box;
+    white-space: nowrap;
+
+    li {
+        padding: 0.5rem 1rem; /* Add padding to list items */
+
+        &:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+    }
+}
+
+.navbar-text.open{
+    display: block;
+}

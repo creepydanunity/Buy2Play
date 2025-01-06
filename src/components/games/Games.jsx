@@ -1,19 +1,19 @@
 import "./Games.scss"
 import GamesCard from "./GamesCard/GamesCard";
-
+import cards from "./GamesCard/cards_data";
 
 function Games(){
     return(
-    <div className='popular-games-section'>
+    <section className='popular-games-section'>
         <div className='popular-games-wrapper'>
             <h2>Популярные игры</h2>
             <div className='games-card-wrapper'>
-                <GamesCard/>
-                <GamesCard/>
-                <GamesCard/>
+                {cards.map((card) => (
+                        <GamesCard key={card.id} {...card} />
+                    ))}
             </div>
         </div>
-    </div>
+    </section>
     )
 }
 

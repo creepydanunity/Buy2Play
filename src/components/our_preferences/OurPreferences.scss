@@ -1,8 +1,13 @@
 @use '../../styles/Mixins.scss';
+@use '../../styles/Variables.scss';
+
+
 .our-preferences-section{
+    
     @include Mixins.center-flex();
     flex-direction: column;
     .preferences-section-wrapper{
+        padding: 1.8rem 16.7rem;
         width: 100%;
         max-width: 38.5rem;
         display: flex;
@@ -11,18 +16,8 @@
         flex-direction: column;
         .preferences-section-title{
             margin: 0 auto;
+            color: Variables.$header-color;
         }
-        .preferences-list{
-            padding: 0;
-            width: 100%;
-            .preferences-list-item{
-               @include Mixins.flex-space-between();
-               min-height: 2.6rem;
-            }
-
-            .preferences-list-item:hover{
-                background-color:rgb(181, 182, 185);    
-            }
-        }
+     
     }
 }

@@ -4,12 +4,12 @@ function Foot(){
     return(
         <footer className="footer">
             <div className="footer-wrapper">
-            ©2025
+            ©2024, Buy2Play
             <ul className="footer-navbar">
-                <li>Buy2Play</li>
-                <li>Политика конфиденциальности</li>
-                <li>Условия обслуживания</li>
-                <li>Контактная информация</li>
+                
+                <li className="footer-navbar-item">Политика конфиденциальности</li>
+                <li className="footer-navbar-item">Условия обслуживания</li>
+                <li className="footer-navbar-item">Контактная информация</li>
             </ul>
             </div>
 

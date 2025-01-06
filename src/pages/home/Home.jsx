@@ -7,6 +7,7 @@ import DeliverySection from "../../components/delivery_section/DeliverySection";
 import Games from "../../components/games/Games";
 import OurPreferences from "../../components/our_preferences/OurPreferences";
 
+
 function Home(){
     return(
     <div className='home-wrapper'>
@@ -22,7 +23,8 @@ function Home(){
         <OurPreferences/>
 
         <Foot/>
-        </div>
+ 
+    </div>
     )
 }
 

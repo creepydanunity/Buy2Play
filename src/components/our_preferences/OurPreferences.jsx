@@ -1,45 +1,22 @@
 import "./OurPreferences.scss"
+import { useState } from "react";
+import PreferencesItem from "./preferences_item/PreferencesItem";
+import preferences from "./preferences_item/pref_data";
 
 function OurPreferences(){
+    const [isVisible, setVisibility] = useState(false);
     return(
-    <div className='our-preferences-section'>
+    <section className='our-preferences-section'>
             <div className='preferences-section-wrapper'>
                 <h2 className="preferences-section-title">Наши преимущества</h2>
-                <ul className="preferences-list">
-                    <li className="preferences-list-item">
-                        <div>
-                            <img src="lightning.svg" alt="lightning" />
-                            Скорость доставки
-                        </div>
-                        <img src="arrow.svg" alt="arrow" />
-                    </li>
-                    <li className="preferences-list-item">
-                        <div>
-                            <img src="lock.svg" alt="lock" />
-                            Безопасность
-                        </div>
-                        <img src="arrow.svg" alt="arrow" />
-                    </li>
-                    <li className="preferences-list-item">
-                        
-                        <div>
-                            <img src="box.svg" alt="box" />
-                            Доступность
-                        </div>
-                        <img src="arrow.svg" alt="arrow" />
-                    </li>
-                    <li className="preferences-list-item">
-                        
-                        <div>
-                            <img src="star.svg" alt="star" />
-                            Конкурсы
-                        </div>
-                        <img src="arrow.svg" alt="arrow" />
-                    </li>
-                </ul>
+                <div className="preferences-list">
+                    {preferences.map((preference) => (
+                            <PreferencesItem key={preference.id} {...preference} />
+                        ))}
+                </div>
             </div>
 
-    </div>
+    </section>
 
     )
 }

@@ -1,0 +1,69 @@
+@use '../../styles/Mixins.scss';
+
+// .slider{
+//     @include Mixins.center-flex();
+//     max-height: ;
+// }
+
+.slider-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; 
+    position: relative;
+    width: 100%;
+    height: 500px; 
+  }
+
+
+  .activeSlide, .lastSlide, .nextSlide {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     transition: all 0.5s ease-in-out;
+     text-align: center;
+     color: white;
+  }
+
+
+  .nextSlide {
+      transform: translateX(100%);
+  }
+  .lastSlide {
+      transform: translateX(-100%);
+  }
+   .activeSlide {
+     transform: translateX(0);
+  }
+  
+  .prev, .next {
+       position: absolute;
+       top: 50%;
+       transform: translateY(-50%);
+       background-color: rgba(0, 0, 0, 0.3);
+       border: none;
+       color: white;
+       cursor: pointer;
+       padding: 10px;
+       font-size: 20px;
+       transition: background-color 0.3s ease;
+     }
+     .prev {
+         left: 10px;
+     }
+     .next {
+         right: 10px;
+     }
+
+     .prev:hover, .next:hover {
+         background-color: rgba(0, 0, 0, 0.7);
+     }

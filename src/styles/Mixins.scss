@@ -27,4 +27,19 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
+}
+
+@mixin flex-column-around(){
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+@mixin arrow-rotate(){
+    display: block; 
+    &.rotate {
+        transform: rotate(180deg);
+        padding-left: 0.8rem;
+    }
 }

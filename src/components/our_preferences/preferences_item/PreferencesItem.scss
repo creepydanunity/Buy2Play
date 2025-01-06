@@ -1,0 +1,55 @@
+@use '../../../styles/Mixins.scss';
+@use '../../../styles/Variables.scss';
+
+.preferences-list {
+    padding: 0;
+    width: 100%;
+
+    .preferences-list-item {
+        border-top: 1px solid rgba(0, 0, 0, 0.119);
+        @include Mixins.flex-space-between();
+        min-height: 2.6rem;
+        flex-grow: 0;
+
+        .preferneces-img-wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            color: Variables.$header-color;
+
+            .preferneces-img {
+                margin-right: Variables.$preferneces-img-margin;
+                box-sizing: border-box;
+            }
+        }
+
+        .arrow-wrapper{  
+            display: inline-block;
+            padding-right: 0.8rem;
+        }
+        .preferences-arrow {
+            display: block; 
+            padding-right: 0.8rem;
+            &.rotate {
+                transform: rotate(180deg);
+                padding-left: 0.8rem;
+            }
+         }
+     }
+
+    .preferences-list-item:hover {
+        background-color: rgba(181, 182, 185, 0.255);
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    .preferences-text {
+        height: 0;
+        overflow: hidden;
+        transition: height 0.5s ease;
+        padding: 0 0.5rem;
+        &.open {
+            padding: 0.5rem;
+        }
+    }
+}

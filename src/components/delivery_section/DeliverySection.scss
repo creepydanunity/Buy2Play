@@ -1,13 +1,17 @@
 @use '../../styles/Mixins.scss';
 
+@use '../../styles/Variables.scss';
+
 .delivery-section{
     @include Mixins.center-flex();
 
     .delivery-section-wrapper{
+        padding: 1.8rem 7.1rem;
         display: flex;
         flex-direction: row;
         flex-shrink: 1; 
         flex-wrap: wrap;
+        .delivery-section-content
         .delivery-section-image{
             max-width: 28.85rem;
         }
@@ -15,7 +19,11 @@
         .delivery-section-content{
             max-width: 28.85rem;
             padding: 3rem 3.65rem;
-           
+            @include Mixins.flex-column-around();
+            .delivery-content-title{
+                margin: 0;
+                color: Variables.$header-color;
+            }
         }
         .delivery-content-button{
             @include Mixins.link-button();

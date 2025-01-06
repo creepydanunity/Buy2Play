@@ -1,12 +1,12 @@
 @use '../../styles/Mixins.scss';
-
+@use '../../styles/Variables.scss';
 
 .popular-games-section{
     @include Mixins.center-flex();
     .popular-games-wrapper{
         width: 100%;
-        max-width: 63rem;
-
+        max-width: 67rem;
+        color: Variables.$header-color;
         .games-card-wrapper{
             @include Mixins.flex-items-in-row();
         }
