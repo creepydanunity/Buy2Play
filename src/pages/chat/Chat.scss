@@ -1,0 +1,90 @@
+$primary-color: #6c63ff;
+$background-gradient: linear-gradient(135deg, #6c63ff, #ff6f91);
+$text-color: #ffffff;
+$secondary-text-color: #cccccc;
+$assistant-bg: #2a254a;
+$message-bg: #4a44a5;
+
+.chat-container {
+  width: 450px;
+  height: 819px;
+  background: $background-gradient;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  color: $text-color;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+
+  .chat-header {
+    background: $background-gradient;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+    
+    h2 {
+      font-size: 18px;
+      margin: 0;
+    }
+    
+    .close-button {
+      font-size: 18px;
+      color: $text-color;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  .chat-messages {
+    flex: 1;
+    background: $assistant-bg;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    
+    &::-webkit-scrollbar {
+      width: 8px; 
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: $assistant-bg; 
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: $message-bg;
+      border-radius: 4px; 
+    }
+  }
+  .chat-input {
+    background: $assistant-bg;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      margin-right: 10px;
+      color: $text-color;
+      background-color: $assistant-bg;
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: $text-color;
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+}

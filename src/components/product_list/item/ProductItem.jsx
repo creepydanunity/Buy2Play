@@ -17,10 +17,10 @@ function ProductItem() {
   return (
     <div className="product-item">
       <img src="clashofclans1200.png" alt="clash" />
-      <h2>1200 гемов - Clash Of Clans</h2>
+      <h4>1200 гемов - Clash Of Clans</h4>
       <p>Доставка за 15 минут</p>
       <p>₽959,00</p>
-      <div>
+      <div className="item-controls">
         <button onClick={handleDecrement}> -</button>
         <div>{numberOfItems}</div>
         <button onClick={handleIncrement}>+</button>
