@@ -17,14 +17,16 @@
 
         .header-user-actions{
             @include Mixins.flex-space-between();
+            align-items: center;
+            .user-actions-controls{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                width: 6.7rem;
+            }
         }
 
-        .user-actions-controls{
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            width: 6.7rem;
-        }
+
 
         .header-navbar{
             display: flex;

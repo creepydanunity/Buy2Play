@@ -7,9 +7,6 @@ const data = [
         title:"Самые дешевые цены",
         subtitle:"Наши цены ниже на 5-15% от всех популярных площадок",
         buttonLabel: "К товарам",
-        name: "log",
-        title: "hello",
-        quote: "asdsad",
     },
     {
         id:2,
@@ -17,9 +14,6 @@ const data = [
         title:"Удобная покупка цифровых товаров",
         subtitle:"Мы предоставляем самый быстрый и удобный способ по покупке цифровых товаров.",
         buttonLabel: "К товарам",
-        name: "gog",
-        title: "nasddo",
-        quote: "sadapd",
     },
 ]
 

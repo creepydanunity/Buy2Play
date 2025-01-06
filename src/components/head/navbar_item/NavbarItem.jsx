@@ -1,34 +1,17 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect} from 'react';
 import "./NavbarItem.scss";
-import { NavbarContext } from '../NavbarContext';
+
 
 function NavbarItem({ item, index }) {
   const [isOpen, setIsOpen] = useState(false);
   const [textHeight, setTextHeight] = useState('0px');
   const textRef = useRef(null);
   const containerRef = useRef(null);
-  const { openIndex, setOpenIndex } = useContext(NavbarContext);
 
-    const toggleText = () => {
-      if (isOpen) {
-        setOpenIndex(null);
-        setIsOpen(false);
-      } else {
-         setOpenIndex(index);
-         setIsOpen(true)
+  const toggleText = () => {
+    setIsOpen(!isOpen);
+};
 
-      }
-    };
-
-
-
-  useEffect(() => {
-    if (openIndex === index) {
-      setIsOpen(true);
-    } else {
-      setIsOpen(false);
-    }
-  }, [openIndex, index]);
 
   useEffect(() => {
     if (isOpen && textRef.current) {

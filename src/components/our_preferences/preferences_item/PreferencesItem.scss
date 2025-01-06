@@ -28,12 +28,8 @@
             padding-right: 0.8rem;
         }
         .preferences-arrow {
-            display: block; 
             padding-right: 0.8rem;
-            &.rotate {
-                transform: rotate(180deg);
-                padding-left: 0.8rem;
-            }
+            @include Mixins.arrow-rotate();
          }
      }
 

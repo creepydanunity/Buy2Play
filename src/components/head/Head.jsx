@@ -1,8 +1,6 @@
 import "./Head.scss"
-import IMAGES from "../../images/Images";
 import NavbarItem from "./navbar_item/NavbarItem";
 import preferences from "./navbar_item/item_data";
-import { NavbarProvider } from './NavbarContext';
 
 
 function Head(){
@@ -17,7 +15,6 @@ function Head(){
                     <img src="shopping-bag.svg" width={20} height={20}alt="shopping-bag" />
                 </div>
             </div>
-            <NavbarProvider>
             <ul className='header-navbar'>
                 <li className='header-navbar-item'>Главная</li>
                     {preferences.map(item => ( 
@@ -25,7 +22,7 @@ function Head(){
                 ))}
                 <li className='header-navbar-item'>Spotify</li>
             </ul>
-            </NavbarProvider>
+    
         </div>
         
     </header>

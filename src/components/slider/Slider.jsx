@@ -19,9 +19,9 @@ function Slider() {
 
     return (
         <section className="slider">
-            <div className="slider-center">
+            <div className="slider-wrapper">
                 {people.map((person, personIndex) => {
-                    const { id, image, name, title, quote } = person;
+                    const { id, image, subtitle, title, buttonLabel } = person;
                     let position = "nextSlide";
                     if (personIndex === currentIndex) {
                         position = "activeSlide";
@@ -31,28 +31,39 @@ function Slider() {
                         position = "lastSlide";
                     }
                     return (
-                        <article 
-                            className={position} 
-                            key={id}
-                            style={{ backgroundImage: `url(${image})` }}
-                        >
-                            <div className="slider-text-wrapper">
-
+                        
+                            <article 
+                                className={position} 
+                                key={id}
+                                style={{ backgroundImage: `url(${image})` }}
+                            >
+                            <div className="slider-text">
+                                <div className="slider-text-wrapper">
+                                    <h2 className="slider-header">{title}</h2>
+                                    <p className="slider-subtitle">{subtitle}</p>
+                                    <div className="slider-button-wrapper">
+                                        <button className="slider-link-button">{buttonLabel}</button>
+                                    </div>
+                                    
+                                </div>
+               
                             </div>
-                            <h4>{name}</h4>
-                            <p>{title}</p>
-                            <p>{quote}</p>
+                            </article>
+                        
 
-                        </article>
                     );
                 })}
+
+            </div>
+            <div className="controls">
                 <button className="prev" onClick={() => setIndex(prev => prev - 1)}>
-                    {"<"}
-                </button>
+                        {"<"}
+                    </button>
                 <button className="next" onClick={() => setIndex(prev => prev + 1)}>
-                    {">"}
+                        {">"}
                 </button>
             </div>
+
         </section>
     );
 }

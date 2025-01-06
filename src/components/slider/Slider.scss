@@ -1,11 +1,8 @@
 @use '../../styles/Mixins.scss';
 
-// .slider{
-//     @include Mixins.center-flex();
-//     max-height: ;
-// }
 
-.slider-center {
+
+.slider-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -13,15 +10,58 @@
     position: relative;
     width: 100%;
     height: 500px; 
+
+    .slider-text{
+        display: flex;
+        width: 100%;
+        max-width: 63rem;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+
+        .slider-text-wrapper{
+            display: flex;
+            flex-direction: column;
+            border-radius: 1rem;
+            background-color: rgba(239, 240, 245, 1);
+            padding: 2rem 1.8rem;
+            justify-content: flex-start;
+            max-width: 28rem;
+
+            .slider-header{
+                font-size: 1.23rem;
+                margin: 0;
+                text-align: start;
+            }
+
+            .slider-subtitle{
+                font-size: 0.84rem;
+                color: rgba(14, 27, 77, 0.75);
+                text-align: start;
+            }
+
+            .slider-button-wrapper{
+                
+                @include Mixins.center-flex();
+                justify-content: flex-start;
+                .slider-link-button{
+                    @include Mixins.link-button();
+                }
+            }
+
+        }
+    }
+
   }
 
 
   .activeSlide, .lastSlide, .nextSlide {
-     position: absolute;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    //  top: 0;
+    //  left: 0;
+
      background-size: cover;
      background-position: center;
      background-repeat: no-repeat;
@@ -30,8 +70,8 @@
      align-items: center;
      justify-content: center;
      transition: all 0.5s ease-in-out;
-     text-align: center;
-     color: white;
+    //  text-align: center;
+    //  color: rgba(14, 27, 77, 1);
   }
 
 
@@ -44,26 +84,22 @@
    .activeSlide {
      transform: translateX(0);
   }
-  
-  .prev, .next {
-       position: absolute;
-       top: 50%;
-       transform: translateY(-50%);
-       background-color: rgba(0, 0, 0, 0.3);
-       border: none;
-       color: white;
-       cursor: pointer;
-       padding: 10px;
-       font-size: 20px;
-       transition: background-color 0.3s ease;
-     }
-     .prev {
-         left: 10px;
-     }
-     .next {
-         right: 10px;
-     }
 
-     .prev:hover, .next:hover {
-         background-color: rgba(0, 0, 0, 0.7);
-     }
+  .controls{
+    @include Mixins.center-flex();
+    width: 100%;
+    .prev, .next {
+        width: 100%;
+         }
+         .prev {
+             left: 10px;
+         }
+         .next {
+             right: 10px;
+         }
+    
+         .prev:hover, .next:hover {
+             background-color: rgba(0, 0, 0, 0.7);
+         }
+  }
+
