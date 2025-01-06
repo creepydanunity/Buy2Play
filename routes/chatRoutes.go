@@ -12,5 +12,5 @@ func ChatRoutes(r *gin.Engine) {
 
 	r.GET("/conversations/:id", middlewares.AuthRequired(), controllers.GetConversation)
 
-	r.GET("/ws/conversations/:id", controllers.WebSocketHandler)
+	r.GET("/ws/conversations/:orderID", controllers.WebSocketHandler)
 }

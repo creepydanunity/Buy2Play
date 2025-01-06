@@ -5,6 +5,7 @@ import (
 	"buy2play/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -203,5 +204,66 @@ func UpdateOrderStatus(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, order)
+	// TODO: Automatic Sender
+	if status == models.Approved {
+		msg := "ID Заказа: " + strconv.Itoa(int(order.ID)) + "\nТовары к выдаче:\n"
+		var orderItemsManual []models.OrderItem
+		for _, orderItem := range order.OrderItems {
+			if orderItem.Product.Type == models.Manual {
+				orderItemsManual = append(orderItemsManual, orderItem)
+				msg += orderItem.Product.Name + ": " + strconv.Itoa(orderItem.Quantity) + " ед.\n"
+			}
+		}
+
+		if len(orderItemsManual) > 0 {
+			var admin models.User
+
+			if err := db.Model(&models.User{}).Where("is_admin = ?", true).First(&admin).Error; err != nil {
+				c.JSON(http.StatusNotFound, gin.H{"error": "Admin not found"})
+				return
+			}
+
+			conversation := models.Conversation{
+				OrderID:   order.ID,
+				Order:     order,
+				UserID:    order.UserID,
+				User:      order.User,
+				AdminID:   admin.ID,
+				Admin:     admin,
+				CreatedAt: time.Now(),
+				UpdatedAt: time.Now(),
+			}
+
+			if err := db.Save(&conversation).Error; err != nil {
+				c.JSON(http.StatusNotFound, gin.H{"error": "Could not create conversation"})
+				return
+			}
+
+			db.Save(&models.Message{
+				ConversationID: conversation.ID,
+				Conversation:   conversation,
+				SenderID:       order.UserID,
+				Sender:         order.User,
+				Content:        msg,
+				Timestamp:      time.Now(),
+			})
+
+			c.JSON(http.StatusOK, struct {
+				Order    models.Order       `json:"order"`
+				Products []models.OrderItem `json:"manual_order_items"`
+			}{
+				Order:    order,
+				Products: orderItemsManual,
+			})
+			return
+		}
+	}
+
+	c.JSON(http.StatusOK, struct {
+		Order    models.Order       `json:"order"`
+		Products []models.OrderItem `json:"manual_order_items"`
+	}{
+		Order:    order,
+		Products: nil,
+	})
 }
