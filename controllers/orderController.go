@@ -4,10 +4,34 @@ import (
 	"buy2play/config"
 	"buy2play/models"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
 	"time"
 )
+
+type ProductResponseTemp struct {
+	ProductID    uint               `json:"product_id"`
+	ProductName  string             `json:"product_name"`
+	ProductPrice int                `json:"product_price"`
+	ProductType  models.ProductType `json:"product_type"`
+	ProductImage string             `json:"product_image_url"`
+}
+
+type OrderItemResponse struct {
+	OrderItemID uint                `json:"order_item_id"`
+	OrderID     uint                `json:"order_id"`
+	Quantity    int                 `json:"quantity"`
+	Product     ProductResponseTemp `json:"product"`
+}
+
+type OrderResponseTemp struct {
+	OrderID    uint                `json:"order_id"`
+	Timestamp  time.Time           `json:"timestamp"`
+	TotalPrice int                 `json:"total_price"`
+	OrderItems []OrderItemResponse `json:"order_items"`
+	Status     models.Status       `json:"status"`
+}
 
 // PlaceOrder places a new order for the user
 func PlaceOrder(c *gin.Context) {
@@ -193,7 +217,7 @@ func UpdateOrderStatus(c *gin.Context) {
 
 	db := config.DB
 	var order models.Order
-	if err := db.Preload("User").First(&order, input.OrderID).Error; err != nil {
+	if err := db.Preload("OrderItems.Product").First(&order, input.OrderID).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Order not found"})
 		return
 	}
@@ -204,22 +228,28 @@ func UpdateOrderStatus(c *gin.Context) {
 		return
 	}
 
-	// TODO: Automatic Sender
+	orderResponse := transformOrder(order)
+
+	var manualOrderItems []OrderItemResponse
+	for _, item := range order.OrderItems {
+		if item.Product.Type == models.Manual {
+			manualOrderItems = append(manualOrderItems, transformOrderItem(item))
+		}
+	}
 	if status == models.Approved {
 		msg := "ID Заказа: " + strconv.Itoa(int(order.ID)) + "\nТовары к выдаче:\n"
-		var orderItemsManual []models.OrderItem
 		for _, orderItem := range order.OrderItems {
 			if orderItem.Product.Type == models.Manual {
-				orderItemsManual = append(orderItemsManual, orderItem)
+				manualOrderItems = append(manualOrderItems, transformOrderItem(orderItem))
 				msg += orderItem.Product.Name + ": " + strconv.Itoa(orderItem.Quantity) + " ед.\n"
 			}
 		}
 
-		if len(orderItemsManual) > 0 {
+		if len(manualOrderItems) > 0 {
 			var admin models.User
 
 			if err := db.Model(&models.User{}).Where("is_admin = ?", true).First(&admin).Error; err != nil {
-				c.JSON(http.StatusNotFound, gin.H{"error": "Admin not found"})
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Admin not found"})
 				return
 			}
 
@@ -235,35 +265,62 @@ func UpdateOrderStatus(c *gin.Context) {
 			}
 
 			if err := db.Save(&conversation).Error; err != nil {
-				c.JSON(http.StatusNotFound, gin.H{"error": "Could not create conversation"})
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not create conversation", "details": err})
 				return
 			}
 
-			db.Save(&models.Message{
+			if err := db.Save(&models.Message{
 				ConversationID: conversation.ID,
 				Conversation:   conversation,
 				SenderID:       order.UserID,
 				Sender:         order.User,
 				Content:        msg,
-				Timestamp:      time.Now(),
-			})
+				CreatedAt:      time.Now(),
+			}); err != nil {
+				log.Errorf("Could not create initial message: %v", err)
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not create message", "details": err})
+				return
+			}
 
-			c.JSON(http.StatusOK, struct {
-				Order    models.Order       `json:"order"`
-				Products []models.OrderItem `json:"manual_order_items"`
-			}{
-				Order:    order,
-				Products: orderItemsManual,
+			c.JSON(http.StatusOK, gin.H{
+				"order":              orderResponse,
+				"manual_order_items": manualOrderItems,
 			})
 			return
 		}
 	}
 
-	c.JSON(http.StatusOK, struct {
-		Order    models.Order       `json:"order"`
-		Products []models.OrderItem `json:"manual_order_items"`
-	}{
-		Order:    order,
-		Products: nil,
+	c.JSON(http.StatusOK, gin.H{
+		"order":              orderResponse,
+		"manual_order_items": manualOrderItems,
 	})
+}
+
+func transformOrder(order models.Order) OrderResponseTemp {
+	var orderItems []OrderItemResponse
+	for _, item := range order.OrderItems {
+		orderItems = append(orderItems, transformOrderItem(item))
+	}
+	return OrderResponseTemp{
+		OrderID:    order.ID,
+		Timestamp:  order.Timestamp,
+		TotalPrice: order.TotalPrice,
+		OrderItems: orderItems,
+		Status:     order.Status,
+	}
+}
+
+func transformOrderItem(item models.OrderItem) OrderItemResponse {
+	return OrderItemResponse{
+		OrderItemID: item.ID,
+		OrderID:     item.OrderID,
+		Quantity:    item.Quantity,
+		Product: ProductResponseTemp{
+			ProductID:    item.Product.ID,
+			ProductName:  item.Product.Name,
+			ProductPrice: item.Product.Price,
+			ProductType:  item.Product.Type,
+			ProductImage: item.Product.ImageURL,
+		},
+	}
 }

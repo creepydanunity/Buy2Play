@@ -23,5 +23,5 @@ type Message struct {
 	SenderID       uint         `json:"sender_id"`
 	Sender         User         `gorm:"foreignkey:SenderID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"sender"`
 	Content        string       `json:"content"`
-	Timestamp      time.Time    `json:"timestamp"`
+	CreatedAt      time.Time    `gorm:"not null;default:current_timestamp" json:"created_at"`
 }
