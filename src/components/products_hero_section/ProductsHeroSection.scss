@@ -1,0 +1,14 @@
+@use '../../styles/Mixins.scss';
+
+
+.products-hero-section{
+    @include Mixins.center-flex();
+    flex-direction: row;
+    .products-hero-section-wrapper{
+        @include Mixins.centered-wrapper();
+        .products-hero-text{
+            max-width: 39rem;
+        }
+
+    }
+}

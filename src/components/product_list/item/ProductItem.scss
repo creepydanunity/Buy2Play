@@ -1,0 +1,16 @@
+@use '../../../styles/Mixins.scss';
+
+
+.product-item{
+    @include Mixins.flex-column-around();
+    max-width: 13rem;
+    border: 1px solid rgba(14, 27, 77, 1);
+    border-radius: 1rem;
+    padding: 0.9rem;
+
+    .item-controls{
+        @include Mixins.flex-space-between();
+        border: 1px solid rgba(14, 27, 77, 0.419);
+        border-radius: 1.3rem;
+    }
+}

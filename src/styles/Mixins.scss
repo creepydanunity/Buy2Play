@@ -43,3 +43,12 @@
         padding-left: 0.8rem;
     }
 }
+
+@mixin centered-wrapper(){
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 63rem;
+}
