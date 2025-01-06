@@ -1,0 +1,14 @@
+@use '../../styles/Mixins.scss';
+
+
+.product-sort{
+    @include Mixins.center-flex();
+    flex-direction: row;
+    .product-sort-wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        width: 100%;
+        max-width: 63rem;
+    }
+}

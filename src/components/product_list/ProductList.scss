@@ -1,7 +1,17 @@
-.product-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 28px;
-    padding: 10rem;
-  }
+@use '../../styles/Mixins.scss';
+
+.product-list{
+    @include Mixins.center-flex();
+    flex-direction: column;
+    // margin: 1rem 1rem;
+    
+    .product-list-wrapper {
+        @include Mixins.centered-wrapper();
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 28px;
+        // padding: 1;
+      }
+}
+
   

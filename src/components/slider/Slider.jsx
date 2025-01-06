@@ -42,7 +42,8 @@ function Slider() {
                                     <h2 className="slider-header">{title}</h2>
                                     <p className="slider-subtitle">{subtitle}</p>
                                     <div className="slider-button-wrapper">
-                                        <button className="slider-link-button">{buttonLabel}</button>
+                                        <a href="/products" className="slider-link-button">{buttonLabel}</a>
+                                        {/* <button href="/products" className="slider-link-button">{buttonLabel}</button> */}
                                     </div>
                                     
                                 </div>

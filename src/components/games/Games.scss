@@ -7,6 +7,7 @@
         width: 100%;
         max-width: 67rem;
         color: Variables.$header-color;
+
         .games-card-wrapper{
             @include Mixins.flex-items-in-row();
         }
