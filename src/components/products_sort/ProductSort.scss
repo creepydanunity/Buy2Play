@@ -5,10 +5,38 @@
     @include Mixins.center-flex();
     flex-direction: row;
     .product-sort-wrapper{
+        font-size: 0.7rem;
         display: flex;
         flex-direction: row;
-        justify-content: end;
+        justify-content: flex-end;
         width: 100%;
         max-width: 63rem;
+        
+        .product-sort-form{
+            display: flex;
+            flex-direction:row;
+            justify-content: space-around;
+            align-items: center;
+            .sort-form-label{
+                width: 100%;
+                color: rgba(14, 27, 77, 0.85);
+            }
+
+            .sort-form-select {
+                color: rgba(14, 27, 77, 0.75);
+                margin: 0.2rem;
+                box-sizing: content-box;
+                border: none;
+                background-color: inherit;
+                border-radius: 0.2rem;
+                cursor: pointer;
+                &:focus {
+                    outline: 0.05rem solid #007bff; 
+                }
+            }
+            .sort-form-products{
+                color: rgba(14, 27, 77, 0.75);
+            }
+        }
     }
 }

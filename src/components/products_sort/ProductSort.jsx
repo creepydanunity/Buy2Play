@@ -5,9 +5,9 @@ function ProductSort({number_of_products=8}){
     return(
         <div className="product-sort">
             <div className="product-sort-wrapper">
-                <form>
-                    <label>Сортировка:</label> 
-                    <select >
+                <form className="product-sort-form">
+                    <label className="sort-form-label">Сортировка:</label> 
+                    <select className="sort-form-select">
                         <option value="Рекомендуется">Рекомендуется</option>
                         <option value="Лидер продаж">Лидер продаж</option>
                         <option value="От А до Я">От А до Я</option>
@@ -18,7 +18,7 @@ function ProductSort({number_of_products=8}){
                         <option value="Сначала новые">Сначала новые</option>
                     </select>
                 </form>
-                <span>Продуктов:{number_of_products}</span>
+                <span className="sort-form-products">Продуктов: {number_of_products}</span>
             </div>
         </div>
     )

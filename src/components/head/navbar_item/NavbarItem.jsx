@@ -35,7 +35,9 @@ function NavbarItem({ item, index }) {
           {item.names.map((name, index) => (
              <li key={index}>{name}</li>
           ))}
+             
       </ul>
+
     </div>
   );
 }
