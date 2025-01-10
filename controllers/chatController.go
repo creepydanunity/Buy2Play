@@ -33,12 +33,16 @@ func GetConversations(c *gin.Context) {
 
 // GetConversation retrieves a particular conversation along with its messages for the authenticated user
 func GetConversation(c *gin.Context) {
-	conversationIDStr := c.Param("id")
-	conversationID, err := strconv.Atoi(conversationIDStr)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid conversation ID"})
+	var input struct {
+		ConversationID uint `json:"conversation_id"`
+	}
+
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	conversationID := input.ConversationID
 
 	userID, exists := c.Get("userID")
 	if !exists {
@@ -47,7 +51,7 @@ func GetConversation(c *gin.Context) {
 	}
 
 	var conversation models.Conversation
-	err = config.DB.Model(&models.Conversation{}).Preload("Order").Preload("User").Preload("Admin").Where("id = ? AND user_id = ?", conversationID, userID).First(&conversation).Error
+	err := config.DB.Model(&models.Conversation{}).Preload("Order").Preload("User").Preload("Admin").Where("id = ? AND user_id = ?", conversationID, userID).First(&conversation).Error
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Conversation not found"})
 		return
@@ -156,7 +160,7 @@ func WebSocketHandler(c *gin.Context) {
 			ConversationID: conversation.ID,
 			SenderID:       userID.(uint),
 			Content:        string(msg),
-			Timestamp:      time.Now(),
+			CreatedAt:      time.Now(),
 		}
 
 		err = config.DB.Create(&message).Error
